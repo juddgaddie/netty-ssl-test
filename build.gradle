@@ -1,0 +1,30 @@
+group 'com.transficc'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+String nettyVersion = "4.1.16.Final"
+
+List<String> nettyCommon = ["io.netty:netty-common:$nettyVersion", "io.netty:netty-resolver:$nettyVersion", "io.netty:netty-resolver-dns:$nettyVersion", "io.netty:netty-buffer:$nettyVersion",
+                            "io.netty:netty-transport:$nettyVersion", "io.netty:netty-handler:$nettyVersion", "io.netty:netty-codec:$nettyVersion", "io.netty:netty-codec-http:$nettyVersion",
+                            "io.netty:netty-codec-http:$nettyVersion", "io.netty:netty-codec-http2:$nettyVersion", "io.netty:netty-codec-dns:$nettyVersion"]
+
+List<String> nettyFedoraDynamic = nettyCommon + ["io.netty:netty-tcnative:2.0.6.Final:linux-x86_64-fedora"]
+
+List<String> bouncy = ['org.bouncycastle:bcprov-jdk15on:1.56', 'org.bouncycastle:bcpkix-jdk15on:1.56']
+List<String> nettyStatic = nettyCommon + [files("libs/io/netty/netty-tcnative-openssl-static-2.0.7.Final-66d14e4-linux-x86_64.jar")]
+
+
+dependencies {
+    compile bouncy
+//    compile 'io.netty:netty-tcnative-boringssl-static:2.0.6.Final'
+//    compile nettyFedoraDynamic
+    compile nettyStatic
+    compile nettyCommon
+}
