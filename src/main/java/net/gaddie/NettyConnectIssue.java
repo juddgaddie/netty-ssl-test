@@ -52,14 +52,6 @@ public class NettyConnectIssue {
             // Start the client.
 
             ChannelFuture connect = b.connect(HOST, PORT).sync();
-            System.out.println(connect.channel().isActive());
-
-//            // Wait until the connection is closed.
-            while (!connect.channel().isActive());
-            {
-                Thread.sleep(1);
-            }
-            System.out.println(connect.channel().isActive());
             connect.channel().closeFuture().sync();
 
         } finally {
@@ -67,7 +59,7 @@ public class NettyConnectIssue {
             group.shutdownGracefully();
         }
 
-        System.out.println("finished");
+        System.out.println("Main thread complete.");
     }
 
 
@@ -85,7 +77,7 @@ public class NettyConnectIssue {
             if (sslCtx != null) {
                 p.addLast(sslCtx.newHandler(ch.alloc(), HOST, PORT));
             }
-            p.addLast(new EchoClientHandler());
+            p.addLast(new ClientHandler());
         }
     }
 
